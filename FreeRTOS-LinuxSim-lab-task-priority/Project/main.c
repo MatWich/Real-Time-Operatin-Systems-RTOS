@@ -100,19 +100,17 @@
 
 # define ARRLEN(a) (sizeof(a) / sizeof (a)[0])
 
-QueueHandle_t xQueue;
 
 static void xStartTask_1(void *pvParameters ) 
 {
-	int data = 0;
+
 	const	TickType_t xDelay = 1000/portTICK_PERIOD_MS;
 		(void) pvParameters;
 
 
 		for( ;; ) {
-			vTaskDelay(xDelay);
-			xQueueReceive(xQueue, &data, 0);
-			printf("Data received %d \r\n", data);
+			//vTaskDelay(xDelay);
+			printf("Task 1 here \r\n");
 
 		}
 
@@ -120,27 +118,30 @@ static void xStartTask_1(void *pvParameters )
 
 static void xStartTask_2( void *pvParameters )
 {
-	int data = 0;
+    int counter = 0;
 	const	TickType_t xDelay = 1000/portTICK_PERIOD_MS;
 	(void) pvParameters;
 
 
 	for( ;; ) {
-		vTaskDelay(xDelay);
-		xQueueSend(xQueue, &data, 0);
-		printf("Sending new data...\r\n");
-		data++;
-	}
+		//vTaskDelay(xDelay);
+        if (counter == 10)
+        {
+            vTaskPrioritySet(NULL, tskIDLE_PRIORITY + 3)    // BIGGER PRIORITY
+            printf("Now task 2 has higher priority")
+        }
+		printf("Task 2 here\r\n");
+        counter++;
+
 }
 
 
 int main ( void )
 {
+	// SAME PRIORITY
+    xTaskCreate( xStartTask_1, "Task 1", configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 2), NULL );
+	xTaskCreate( xStartTask_2, "Task 2", configMINIMAL_STACK_SIZE, NULL, (tskIDLE_PRIORITY + 2), NULL );
 
-	xSemaphore = xQueueCreate(sizeof(int)*100, sizeof(int)); // it can queue up to 100
-	
-	xTaskCreate( xStartTask_2, "Sender", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
-	xTaskCreate( xStartTask_1, "Receiver", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
 	
 	/* Start the scheduler itself. */
 	vTaskStartScheduler();
