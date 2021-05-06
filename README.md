@@ -10,3 +10,5 @@ Using Semaphores to synchronize the tasks.
 ## FreeRTOS-LinuxSim-lab-cyclic-buffer-synchronization
 The application that solves
 the problem of the producer and consumer with the so-called limited buffer.
+## FreeRTOS-LinuxSim-lab-client-server-architecture
+Basic math calculator using client server architecture with queues
