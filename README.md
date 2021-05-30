@@ -12,3 +12,5 @@ The application that solves
 the problem of the producer and consumer with the so-called limited buffer.
 ## FreeRTOS-LinuxSim-lab-client-server-architecture
 Basic math calculator using client server architecture with queues
+## FreeRTOS-LinuxSim-lab-eventGroups
+Example of synchronization provided by eventGroups
